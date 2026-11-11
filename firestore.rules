@@ -1,0 +1,35 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId}/credit_audits/{docId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId)
+        && request.resource.data.prototypeId == 'cuotas-auditor'
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
+    match /prototype_feedback/{feedbackId} {
+      allow create: if isSignedIn()
+        && request.resource.data.prototypeId == 'cuotas-auditor'
+        && request.resource.data.testerUid == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.openSuggestion is string
+        && request.resource.data.openSuggestion.size() <= 2000;
+      allow read, update, delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

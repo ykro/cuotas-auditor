@@ -1,0 +1,30 @@
+{
+  "name": "cuotas-auditor",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Auditor de Costo Real de Credito para Compra a Cuotas y Extrafinanciamiento en Guatemala",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "start": "node server.mjs",
+    "test": "node --import tsx/esm --test tests/*.test.*",
+    "qa:human": "node scripts/run-human-qa.mjs"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^1.2.0",
+    "firebase": "^13.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tsx": "^4.19.2",
+    "typescript": "~5.7.2",
+    "vite": "^6.0.5"
+  }
+}

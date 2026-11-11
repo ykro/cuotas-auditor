@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arbol de Decision del Veredicto — Cuotas Auditor GT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #eb6c36;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print {
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Flowchart · Diagram Design</p>
+    <h1>Regla de Decision: Contado vs. Cuotas vs. Liquidez</h1>
+
+    <div class="diagram-container">
+      <svg viewBox="0 0 960 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="dec-gt-title dec-gt-desc">
+        <title id="dec-gt-title">Regla de Decision: Contado vs. Cuotas vs. Liquidez</title>
+        <desc id="dec-gt-desc">Diagrama de flujo que evalua si existe sobrecosto oculto o pérdida de descuento de oferta para emitir el dictamen financiero.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+          </marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+          </marker>
+        </defs>
+
+        <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+        <!-- Connectors -->
+        <!-- N1 -> N2 (SI: TEA == 0) -->
+        <path d="M 272 136 L 640 136" fill="none" stroke="#4f5d75" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <rect x="410" y="112" width="84" height="16" fill="#f5f5f5"/>
+        <text x="452" y="123" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#4f5d75">TEA == 0.00%</text>
+
+        <!-- N1 -> N3 (NO: TEA > 0) -->
+        <line x1="156" y1="184" x2="156" y2="276" stroke="#eb6c36" stroke-width="2" marker-end="url(#arrow-accent)"/>
+        <rect x="168" y="220" width="84" height="16" fill="#f5f5f5"/>
+        <text x="210" y="231" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#eb6c36">SOBRECOSTO &gt; 0</text>
+
+        <!-- N3 -> N4 (Falso 0% / Semanal) -->
+        <line x1="272" y1="324" x2="640" y2="324" stroke="#eb6c36" stroke-width="2" marker-end="url(#arrow-accent)"/>
+        <rect x="400" y="300" width="104" height="16" fill="#f5f5f5"/>
+        <text x="452" y="311" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#eb6c36">FALSO 0% / SEMANAL</text>
+
+        <!-- Nodes -->
+        <!-- Node 1: Evaluacion de Sobrecosto -->
+        <rect x="40" y="88" width="232" height="96" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <rect x="52" y="100" width="64" height="18" rx="2" fill="#e8eaed"/>
+        <text x="84" y="112" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#2d3142">EVALUAR</text>
+        <text x="52" y="140" font-family="'Geist', sans-serif" font-weight="600" font-size="15" fill="#2d3142">Comparar total y contado</text>
+        <text x="52" y="160" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Solo cargos confirmados</text>
+
+        <!-- Node 2: Veredicto Optimo -->
+        <rect x="640" y="88" width="280" height="96" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <rect x="652" y="100" width="84" height="18" rx="2" fill="#e8eaed"/>
+        <text x="694" y="112" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#2d3142">REVISAR</text>
+        <text x="652" y="140" font-family="'Geist', sans-serif" font-weight="600" font-size="15" fill="#2d3142">Revisar ingreso orientativo</text>
+        <text x="652" y="160" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Confirmar gastos y condiciones</text>
+
+        <!-- Node 3: Clasificador de Trampa -->
+        <rect x="40" y="276" width="232" height="96" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <rect x="52" y="288" width="76" height="18" rx="2" fill="#e8eaed"/>
+        <text x="90" y="300" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#2d3142">DIAGNOSTICO</text>
+        <text x="52" y="328" font-family="'Geist', sans-serif" font-weight="600" font-size="15" fill="#2d3142">Diferencia de la oferta</text>
+        <text x="52" y="348" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Separar redondeo y recargos</text>
+
+        <!-- Node 4 (FOCAL): Alerta Bermellon -->
+        <rect x="640" y="276" width="280" height="96" rx="6" fill="#fff5f0" stroke="#eb6c36" stroke-width="2"/>
+        <rect x="652" y="288" width="88" height="18" rx="2" fill="#eb6c36"/>
+        <text x="696" y="300" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#ffffff">CONDICIONES</text>
+        <text x="652" y="328" font-family="'Geist', sans-serif" font-weight="600" font-size="15" fill="#2d3142">Comparar antes de decidir</text>
+        <text x="652" y="348" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Sin suponer capacidad de pago</text>
+
+        <!-- Legend -->
+        <line x1="40" y1="428" x2="920" y2="428" stroke="#d0d4dc" stroke-width="1"/>
+        <rect x="40" y="444" width="12" height="12" rx="2" fill="#fff5f0" stroke="#eb6c36" stroke-width="1.5"/>
+        <text x="60" y="454" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Ruta de comparación de recargos</text>
+        <rect x="360" y="444" width="12" height="12" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <text x="380" y="454" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Nodo de Evaluacion Determinista</text>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flujo de Datos de Auditoria — Cuotas Auditor GT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --color-paper:   #f5f5f5;
+      --color-ink:     #2d3142;
+      --color-muted:   #4f5d75;
+      --color-accent:  #eb6c36;
+      --font-sans:     'Geist', system-ui, sans-serif;
+      --font-serif:    'Instrument Serif', serif;
+      --font-mono:     'Geist Mono', ui-monospace, monospace;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 2rem;
+    }
+    .frame { max-width: 1200px; width: 100%; }
+    .diagram-container { width: 100%; overflow-x: auto; }
+    .eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 2.4vw + 0.75rem, 2rem);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      color: var(--color-ink);
+      margin-bottom: 1.5rem;
+    }
+    svg { width: 100%; min-width: 960px; display: block; }
+    @media print {
+      .diagram-container { overflow-x: visible; }
+      svg { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <p class="eyebrow">Data Flow · Diagram Design</p>
+    <h1>Pipeline de Transformacion Financiera (Semanal y Mensual)</h1>
+
+    <div class="diagram-container">
+      <svg viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="df-gt-title df-gt-desc">
+        <title id="df-gt-title">Pipeline de Transformacion Financiera (Semanal y Mensual)</title>
+        <desc id="df-gt-desc">Flujo de datos desde los precios de Elektra y MAX hasta el vector de flujos de caja, el solver TIR y la matriz de sobrecosto.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#4f5d75"/>
+          </marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#eb6c36"/>
+          </marker>
+        </defs>
+
+        <rect width="100%" height="100%" fill="#f5f5f5"/>
+
+        <!-- Connectors first -->
+        <line x1="224" y1="188" x2="296" y2="188" stroke="#4f5d75" stroke-width="1.5" marker-end="url(#arrow)"/>
+        <rect x="234" y="164" width="52" height="16" fill="#f5f5f5"/>
+        <text x="260" y="175" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#4f5d75">NORMALIZA</text>
+
+        <line x1="480" y1="188" x2="552" y2="188" stroke="#eb6c36" stroke-width="2" marker-end="url(#arrow-accent)"/>
+        <rect x="490" y="164" width="52" height="16" fill="#f5f5f5"/>
+        <text x="516" y="175" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#eb6c36">CF[0..N]</text>
+
+        <line x1="736" y1="164" x2="788" y2="164" stroke="#eb6c36" stroke-width="2" marker-end="url(#arrow-accent)"/>
+        <path d="M 736 212 L 760 212 Q 768 212 768 220 L 768 292 Q 768 300 776 300 L 788 300" fill="none" stroke="#4f5d75" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+        <!-- Stage 1: Raw Store Inputs -->
+        <rect x="40" y="124" width="184" height="128" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <rect x="52" y="136" width="60" height="18" rx="2" fill="#e8eaed"/>
+        <text x="82" y="148" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#2d3142">1. INPUT</text>
+        <text x="52" y="176" font-family="'Geist', sans-serif" font-weight="600" font-size="14" fill="#2d3142">Datos DOM / Etiqueta</text>
+        <text x="52" y="198" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Contado: Q4,195</text>
+        <text x="52" y="216" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Abono: Q71/sem</text>
+        <text x="52" y="234" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Lista: Q8,999</text>
+
+        <!-- Stage 2: Cash Flow Vector Builder -->
+        <rect x="296" y="124" width="184" height="128" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <rect x="308" y="136" width="68" height="18" rx="2" fill="#e8eaed"/>
+        <text x="342" y="148" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#2d3142">2. VECTOR</text>
+        <text x="308" y="176" font-family="'Geist', sans-serif" font-weight="600" font-size="14" fill="#2d3142">Generador de Flujos</text>
+        <text x="308" y="198" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">CF_0 = +CapitalNeto</text>
+        <text x="308" y="216" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">CF_t = -(Cuota+Cargos)</text>
+        <text x="308" y="234" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Sem Eq = 59.08 sem</text>
+
+        <!-- Stage 3 (FOCAL): Solver IRR + TEA -->
+        <rect x="552" y="124" width="184" height="128" rx="6" fill="#fff5f0" stroke="#eb6c36" stroke-width="2"/>
+        <rect x="564" y="136" width="68" height="18" rx="2" fill="#eb6c36"/>
+        <text x="598" y="148" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#ffffff">3. SOLVER</text>
+        <text x="564" y="176" font-family="'Geist', sans-serif" font-weight="600" font-size="14" fill="#2d3142">Raiz TIR y TEA</text>
+        <text x="564" y="198" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">VPN(r_p) = 0.00</text>
+        <text x="564" y="216" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Sem: (1+r_w)^52 - 1</text>
+        <text x="564" y="234" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Mes: (1+r_m)^12 - 1</text>
+
+        <!-- Stage 4A: Matriz Semanal 52..154 -->
+        <rect x="788" y="104" width="144" height="112" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <rect x="800" y="116" width="68" height="18" rx="2" fill="#e8eaed"/>
+        <text x="834" y="128" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#2d3142">SALIDA A</text>
+        <text x="800" y="154" font-family="'Geist', sans-serif" font-weight="600" font-size="13" fill="#2d3142">Matriz Semanal</text>
+        <text x="800" y="174" font-family="'Geist Mono', monospace" font-size="10" fill="#4f5d75">52..154 semanas</text>
+        <text x="800" y="192" font-family="'Geist Mono', monospace" font-size="10" fill="#eb6c36">TEA: 77% - 100%</text>
+
+        <!-- Stage 4B: Desglose Contable -->
+        <rect x="788" y="248" width="144" height="112" rx="6" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <rect x="800" y="260" width="68" height="18" rx="2" fill="#e8eaed"/>
+        <text x="834" y="272" text-anchor="middle" font-family="'Geist Mono', monospace" font-size="10" fill="#2d3142">SALIDA B</text>
+        <text x="800" y="298" font-family="'Geist', sans-serif" font-weight="600" font-size="13" fill="#2d3142">Dictamen Exacto</text>
+        <text x="800" y="318" font-family="'Geist Mono', monospace" font-size="10" fill="#4f5d75">4 Rubros Sobrecosto</text>
+        <text x="800" y="336" font-family="'Geist Mono', monospace" font-size="10" fill="#4f5d75">Guion Negociacion</text>
+
+        <!-- Legend -->
+        <line x1="40" y1="416" x2="920" y2="416" stroke="#d0d4dc" stroke-width="1"/>
+        <rect x="40" y="432" width="12" height="12" rx="2" fill="#fff5f0" stroke="#eb6c36" stroke-width="1.5"/>
+        <text x="60" y="442" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Etapa de Convergencia Numerica (Newton-Raphson)</text>
+        <rect x="380" y="432" width="12" height="12" rx="2" fill="#ffffff" stroke="#2d3142" stroke-width="1.5"/>
+        <text x="400" y="442" font-family="'Geist Mono', monospace" font-size="11" fill="#4f5d75">Estructura de Datos Tipada</text>
+      </svg>
+    </div>
+  </div>
+</body>
+</html>
